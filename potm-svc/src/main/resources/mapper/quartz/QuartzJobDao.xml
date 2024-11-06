@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.potm.svc.quartz.dao.QuartzJobDao">
+
+    <sql id="commonSql">
+        select
+            a.*
+        from quartz_job a
+    </sql>
+
+    <select id="page" resultType="org.example.potm.svc.quartz.model.vo.QuartzJobVO">
+        <include refid="commonSql"/>
+        <where>
+            <if test="param != null and param.q != null and param.q!=''" >
+                and (a.bean_name like concat('%',#{param.q},'%') or a.remark like concat('%',#{param.q},'%'))
+            </if>
+            <if test="ew != null and ew.sqlSegment != null and ew.sqlSegment != ''" >
+                and (${ew.sqlSegment})
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.potm.svc.sys.dao.SysUserRoleDao">
+
+    <select id="getByUserId" resultType="org.example.potm.svc.sys.model.po.SysRole">
+        select b.*
+        from sys_user_role a
+        left join sys_role b on b.id = a.role_id
+        where a.user_id = #{userId}
+    </select>
+    <select id="getByRoleId" resultType="org.example.potm.framework.config.permission.user.SysUser">
+        select b.*
+        from sys_user_role a
+        left join sys_role b on b.id = a.role_id
+        where a.role_id = #{roleId}
+    </select>
+</mapper>

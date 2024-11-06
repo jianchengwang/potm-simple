@@ -1,0 +1,14 @@
+pluginManagement {
+	repositories {
+		maven { url 'https://repo.spring.io/milestone' }
+		maven { url 'https://repo.spring.io/snapshot' }
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'potm-simple'
+include 'framework'
+include 'plugins:plugin-storage'
+include 'plugins:plugin-push'
+include 'plugins:plugin-wxminiapp'
+include 'plugins:plugin-wxmp'
+include 'potm-svc'

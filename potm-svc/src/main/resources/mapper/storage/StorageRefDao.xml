@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.potm.svc.storage.dao.StorageRefDao">
+    <select id="selectFileList" resultType="org.example.potm.svc.storage.model.vo.StorageFileVO">
+        select
+        a.ref_id `refId`,
+        a.aq `aq`,
+        b.*
+        from storage_ref a
+        left join storage_file b on b.id = a.file_id
+        <where>
+            a.ref_module = #{module} and a.ref_id in
+            <foreach collection="refIdList" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+            <if test="aq!=null">
+                and a.aq = #{aq}
+            </if>
+        </where>
+    </select>
+
+    <select id="repeatRefFileIdList" resultType="long">
+        SELECT a.id
+        FROM storage_ref a
+        LEFT JOIN storage_file b ON b.id = a.file_id
+        WHERE a.ref_id = #{refId}
+        AND b.path IN (
+        SELECT t.path FROM storage_file t WHERE t.id in
+        <foreach collection="fileIdList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        )
+    </select>
+</mapper>

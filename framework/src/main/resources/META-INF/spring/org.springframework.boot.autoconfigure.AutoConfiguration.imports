@@ -1,0 +1,14 @@
+org.example.potm.framework.config.jackson.JacksonConfigure
+org.example.potm.framework.config.mybatis.MybatisConfigure
+org.example.potm.framework.config.redis.RedisCacheConfigure
+org.example.potm.framework.config.rest.RestTemplateConfigure
+org.example.potm.framework.config.satoken.StpInterfaceImpl
+org.example.potm.framework.config.springdoc.SpringDocConfigure
+org.example.potm.framework.config.cdc.CdcConfigure
+org.example.potm.framework.config.dict.DictConfigure
+org.example.potm.framework.config.permission.menu.MenuConfigure
+org.example.potm.framework.config.task.TaskExecutorConfigure
+org.example.potm.framework.config.web.WebMvcConfigure
+org.example.potm.framework.exception.CommonExceptionHandler
+org.example.potm.framework.utils.ApplicationContextUtils
+

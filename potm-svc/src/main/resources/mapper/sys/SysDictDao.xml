@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.potm.svc.sys.dao.SysDictDao">
+
+    <select id="page" resultType="org.example.potm.framework.config.dict.SysDict">
+        select
+        a.* from sys_dict a
+        <where>
+            <if test="param != null and param.q != null and param.q!=''" >
+                and (a.svc_name = #{param.q} or a.dict_key = #{param.q} )
+            </if>
+            <if test="ew != null and ew.sqlSegment != null and ew.sqlSegment != ''" >
+                and (${ew.sqlSegment})
+            </if>
+        </where>
+        order by a.svc_name asc, a.dict_key asc
+    </select>
+
+    <select id="getItemList" resultType="org.example.potm.framework.config.dict.SysDictItem">
+        select
+        a.* from sys_dict_item a
+        <where>
+            a.svc_name = #{svcName} and a.dict_key = #{dictKey}
+        </where>
+        order by a.sort_order asc
+    </select>
+
+    <select id="fetchAll" resultType="org.example.potm.framework.config.dict.SysDict">
+        select
+        a.* from sys_dict a
+        order by a.svc_name asc, a.dict_key asc
+    </select>
+
+    <select id="fetchItemAll" resultType="org.example.potm.framework.config.dict.SysDictItem">
+        select
+        a.* from sys_dict_item a
+    </select>
+
+    <delete id="deleteItemList">
+        delete from sys_dict_item where svc_name = #{svcName} and dict_key = #{dictKey}
+    </delete>
+
+    <insert id="batchInsertItemList">
+        insert into sys_dict_item
+        (svc_name, dict_key, label, value, type, ext, sort_order, remark, system_flag, color, parent_item_value)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.svcName}, #{item.dictKey}, #{item.label}, #{item.value}, #{item.type}, #{item.ext}, #{item.sortOrder}, #{item.remark}, #{item.systemFlag}, #{item.color}, #{item.parentItemValue})
+        </foreach>
+    </insert>
+
+</mapper>

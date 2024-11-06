@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://repo.spring.io/snapshot' }
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'plugins'
+include 'plugin-storage'
+include 'plugin-push'
+include 'plugin-wxminiapp'
+include 'plugin-wxmp'
+

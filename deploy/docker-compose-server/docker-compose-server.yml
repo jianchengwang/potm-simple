@@ -1,0 +1,59 @@
+version: '3.3'
+
+networks:
+  potm_network:
+    external: true
+
+volumes:
+  potm_mysql_data:
+    external: true
+  potm_redis_data:
+    external: true
+
+services:
+  potm-mysql:
+    image: mysql/mysql-server:8.0.31
+    command: /entrypoint.sh mysqld --max_connections=1000 --innodb-buffer-pool-size=2g --disable-log-bin
+    environment:
+      TZ: Asia/Shanghai
+      LANG: C.UTF-8
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD:
+    restart: always
+    container_name: potm-mysql
+    hostname: potm-mysql
+    ports:
+      - "23306:3306"
+    volumes:
+      - potm_mysql_data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - potm_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+  potm-redis:
+    image: redis:7.0.0
+    command: redis-server /etc/redis/redis.conf
+    ports:
+      - "26379:6379"
+    restart: always
+    container_name: potm-redis
+    hostname: potm-redis
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - potm_redis_data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf
+    networks:
+      - potm_network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
